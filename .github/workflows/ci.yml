@@ -1,0 +1,39 @@
+name: CI Java Gradle Build and Artifacts
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build, Test & Package JAR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Thiết lập môi trường JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Cấp quyền thực thi cho Gradle Wrapper
+        run: chmod +x gradlew
+
+      - name: Chạy Unit Test với Gradle
+        run: ./gradlew test
+
+      - name: Đóng gói tệp JAR với Gradle
+        run: ./gradlew bootJar
+
+      - name: Lưu trữ thành phẩm JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: build/libs/*.jar
