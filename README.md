@@ -34,7 +34,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
+
+      # Cố định phiên bản Gradle 8.5 để tương thích với Spring Boot 3
+      - name: Thiết lập Gradle 8.5
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.5'
 
       - name: Cấp quyền thực thi cho Gradle Wrapper
         run: chmod +x gradlew
@@ -57,13 +62,11 @@ jobs:
 ## 3. Kết quả đạt được
 1. **Biên dịch & đóng gói thành công:** Lệnh `./gradlew bootJar` đã tạo ra file `.jar` hoàn chỉnh chứa ứng dụng Spring Boot và các dependencies nhúng sẵn trong thư mục `build/libs/`.
 2. **Lưu trữ Artifacts tự động:** Action `actions/upload-artifact@v4` tự động nén và tải file `.jar` lên máy chủ GitHub Actions dưới dạng artifact `app-jar`.
-3. **Kiểm tra Summary:** Sau khi pipeline chạy thành công, mục Artifacts trên tab Actions xuất hiện tệp `app-jar` sẵn sàng để tải về máy và kiểm tra thực thi.
+3. **Kiểm tra Summary:** Sau khi pipeline chạy thành công, mục Artifacts trên tab Actions xuất hiện tệp `app-jar` cho phép tải về máy.
 
 ---
 
 ## 4. Hình ảnh minh chứng nộp bài
 
-> Hướng dẫn chi tiết cách chụp ảnh và vị trí chụp xem tại tệp: [HUONG_DAN_THUC_HANH_VA_CHUP_ANH.md](HUONG_DAN_THUC_HANH_VA_CHUP_ANH.md).
-
 ### Ảnh màn hình Summary tab Actions hiển thị artifact `app-jar`:
-![Artifact Summary](screenshot_ex2_artifact_summary.png)
+![Artifact Summary](image/image.png)
