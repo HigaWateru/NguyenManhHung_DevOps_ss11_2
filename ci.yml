@@ -21,7 +21,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
+
+      # Cố định phiên bản Gradle 8.5 để tránh xung đột với Gradle 9.0.0 trên runner
+      - name: Thiết lập Gradle 8.5
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.5'
 
       - name: Cấp quyền thực thi cho Gradle Wrapper
         run: chmod +x gradlew
